@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">BaoMoi UI Mockup</string>
+    <string-array
+        name="tabs_title_news">
+        <item>Tin nóng</item>
+        <item>Tin mới</item>
+        <item>Bóng đá VN</item>
+        <item>Bóng đá QT</item>
+    </string-array>
+</resources>
