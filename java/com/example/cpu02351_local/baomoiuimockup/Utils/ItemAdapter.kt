@@ -14,6 +14,9 @@ class ItemAdapter(private var items: ArrayList<Item>) : RecyclerView.Adapter<Ite
         const val VIEW_HOLDER_SINGLE_IMAGE = 2
         const val VIEW_HOLDER_MULTI_IMAGE = 3
         const val VIEW_HOLDER_READ_MORE = 4
+        const val VIEW_HOLDER_NOT_SATISFY = 5
+        const val VIEW_HOLDER_AD_ITEM = 6
+        const val VIEW_HOLDER_RECT_VIDEO = 7
     }
 
 
@@ -33,6 +36,16 @@ class ItemAdapter(private var items: ArrayList<Item>) : RecyclerView.Adapter<Ite
             VIEW_HOLDER_READ_MORE -> ReadMoreItemViewHolder(
                     LayoutInflater.from(parent.context).inflate(R.layout.item_read_more, parent, false)
             )
+            VIEW_HOLDER_NOT_SATISFY -> NotSatisfyItemViewHolder(
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_not_satisfy, parent, false)
+            )
+            VIEW_HOLDER_AD_ITEM -> AdItemViewHolder(
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_ad, parent, false)
+            )
+            VIEW_HOLDER_RECT_VIDEO -> RectangleVideoItemViewHolder(
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_rect_video, parent, false)
+            )
+
             else -> TODO("Throw an exception here")
         }
     }
