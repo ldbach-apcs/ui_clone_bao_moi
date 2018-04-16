@@ -43,7 +43,6 @@ class NewsListTabFragment : ListTabFragment() {
     }
 
     // Create array of HeaderNewsItem to hold data, recyclerView Adapter too
-
     // Check if Data is cached, if not load them
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

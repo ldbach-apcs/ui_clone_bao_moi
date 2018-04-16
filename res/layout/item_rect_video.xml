@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="8dp"
     android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
@@ -19,13 +20,14 @@
         android:layout_below="@id/item_title"
         android:id="@+id/video_container"
         android:layout_width="match_parent"
-        android:layout_height="288dp">
+        android:layout_height="wrap_content">
 
-        <ImageView
+        <com.example.cpu02351_local.baomoiuimockup.Utils.CustomViews.ScaledImage
             android:src="@drawable/ic_video_demo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            app:scaledRatio="1.0"/>
 
         <ImageView
             android:tint="#FF00FF"

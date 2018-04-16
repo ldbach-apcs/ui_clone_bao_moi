@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import com.example.cpu02351_local.baomoiuimockup.Utils.ItemLoader
 
-class NewsViewPagerAdapter(fm : FragmentManager, private var tabsTitle: Array<String>, var loader: ItemLoader)
+class NewsViewPagerAdapter(fm : FragmentManager, private var tabsTitle: Array<String>, loader: ItemLoader)
     : FragmentStatePagerAdapter(fm) {
 
     private val frags = ArrayList<Fragment>()

@@ -3,7 +3,6 @@ package com.example.cpu02351_local.baomoiuimockup.NewsPage
 import com.example.cpu02351_local.baomoiuimockup.NewsPage.NewsItems.*
 import com.example.cpu02351_local.baomoiuimockup.Utils.Item
 import com.example.cpu02351_local.baomoiuimockup.Utils.ItemLoader
-import com.example.cpu02351_local.baomoiuimockup.Utils.ViewHolders.RectangleVideoItemViewHolder
 
 class NewsItemLoader : ItemLoader() {
     override fun load(title: String): ArrayList<Item> {

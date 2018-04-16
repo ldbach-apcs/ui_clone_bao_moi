@@ -1,5 +1,6 @@
 package com.example.cpu02351_local.baomoiuimockup.NewsPage
 
+import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.content.res.ResourcesCompat
@@ -31,17 +32,19 @@ class NewsPageFragment : PageFragment(), TabLayout.OnTabSelectedListener {
     // Create array of Strings too
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        newsTabsTitle = savedInstanceState?.getStringArray("list_tabs")
-                ?: context!!.resources!!.getStringArray(R.array.tabs_title_news)
+        newsTabsTitle = getTabTitles(savedInstanceState)
         adapterNews = NewsViewPagerAdapter(childFragmentManager, newsTabsTitle!!, NewsItemLoader())
-
-        // Create ViewPager
         val context = this.context!!
-        viewPager = CustomViewPager(context)
-        viewPager!!.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
-        viewPager!!.id = View.generateViewId()
+        createViewPager(context)
+        createTabLayout(context)
+        viewPager?.adapter = adapterNews
+    }
 
-        // Create TabLayout
+    private fun getTabTitles(savedInstanceState: Bundle?) =
+            (savedInstanceState?.getStringArray("list_tabs")
+                    ?: context!!.resources!!.getStringArray(R.array.tabs_title_news))
+
+    private fun createTabLayout(context: Context) {
         tabLayout = TabLayout(context)
         tabLayout!!.id = View.generateViewId()
         tabLayout!!.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
@@ -54,7 +57,12 @@ class NewsPageFragment : PageFragment(), TabLayout.OnTabSelectedListener {
         for (i in 0 until newsTabsTitle?.size!!) {
             tabLayout!!.addTab(tabLayout!!.newTab().setText(newsTabsTitle!![i]))
         }
-        viewPager?.adapter = adapterNews
+    }
+
+    private fun createViewPager(context: Context) {
+        viewPager = CustomViewPager(context)
+        viewPager!!.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        viewPager!!.id = View.generateViewId()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

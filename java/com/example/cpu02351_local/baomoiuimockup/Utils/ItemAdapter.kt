@@ -46,7 +46,7 @@ class ItemAdapter(private var items: ArrayList<Item>) : RecyclerView.Adapter<Ite
                     LayoutInflater.from(parent.context).inflate(R.layout.item_rect_video, parent, false)
             )
 
-            else -> TODO("Throw an exception here")
+            else -> throw IllegalStateException("Invalid ViewType in ItemAdapter")
         }
     }
 

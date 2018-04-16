@@ -48,9 +48,4 @@ class MainActivity : AppCompatActivity() {
                 .commit()
 
     }
-
-    // Clear all strong references
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }
