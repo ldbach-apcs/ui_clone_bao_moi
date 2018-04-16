@@ -4,10 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.cpu02351_local.baomoiuimockup.R
-import com.example.cpu02351_local.baomoiuimockup.Utils.ViewHolders.HeaderItemViewHolder
-import com.example.cpu02351_local.baomoiuimockup.Utils.ViewHolders.ItemViewHolder
-import com.example.cpu02351_local.baomoiuimockup.Utils.ViewHolders.MultiImageItemViewHolder
-import com.example.cpu02351_local.baomoiuimockup.Utils.ViewHolders.SingleImageItemViewHolder
+import com.example.cpu02351_local.baomoiuimockup.Utils.ViewHolders.*
 
 
 class ItemAdapter(private var items: ArrayList<Item>) : RecyclerView.Adapter<ItemViewHolder>() {
@@ -16,6 +13,7 @@ class ItemAdapter(private var items: ArrayList<Item>) : RecyclerView.Adapter<Ite
         const val VIEW_HOLDER_HEADER = 1
         const val VIEW_HOLDER_SINGLE_IMAGE = 2
         const val VIEW_HOLDER_MULTI_IMAGE = 3
+        const val VIEW_HOLDER_READ_MORE = 4
     }
 
 
@@ -31,6 +29,9 @@ class ItemAdapter(private var items: ArrayList<Item>) : RecyclerView.Adapter<Ite
             )
             VIEW_HOLDER_MULTI_IMAGE -> MultiImageItemViewHolder(
                     LayoutInflater.from(parent.context).inflate(R.layout.item_multi_image, parent, false)
+            )
+            VIEW_HOLDER_READ_MORE -> ReadMoreItemViewHolder(
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_read_more, parent, false)
             )
             else -> TODO("Throw an exception here")
         }

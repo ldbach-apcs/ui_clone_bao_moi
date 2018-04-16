@@ -2,7 +2,7 @@ package com.example.cpu02351_local.baomoiuimockup.Utils.ViewHolders
 
 import android.view.View
 import android.widget.TextView
-import com.example.cpu02351_local.baomoiuimockup.NewsPage.HeaderNewsItem
+import com.example.cpu02351_local.baomoiuimockup.NewsPage.NewsItems.HeaderNewsItem
 import com.example.cpu02351_local.baomoiuimockup.R
 import com.example.cpu02351_local.baomoiuimockup.Utils.Item
 
