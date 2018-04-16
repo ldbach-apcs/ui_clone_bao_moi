@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.example.cpu02351_local.baomoiuimockup.R
 import com.example.cpu02351_local.baomoiuimockup.Utils.ViewHolders.HeaderItemViewHolder
 import com.example.cpu02351_local.baomoiuimockup.Utils.ViewHolders.ItemViewHolder
+import com.example.cpu02351_local.baomoiuimockup.Utils.ViewHolders.MultiImageItemViewHolder
 import com.example.cpu02351_local.baomoiuimockup.Utils.ViewHolders.SingleImageItemViewHolder
 
 
@@ -14,6 +15,7 @@ class ItemAdapter(private var items: ArrayList<Item>) : RecyclerView.Adapter<Ite
     companion object {
         const val VIEW_HOLDER_HEADER = 1
         const val VIEW_HOLDER_SINGLE_IMAGE = 2
+        const val VIEW_HOLDER_MULTI_IMAGE = 3
     }
 
 
@@ -26,6 +28,9 @@ class ItemAdapter(private var items: ArrayList<Item>) : RecyclerView.Adapter<Ite
             )
             VIEW_HOLDER_SINGLE_IMAGE -> SingleImageItemViewHolder(
                     LayoutInflater.from(parent.context).inflate(R.layout.item_single_image, parent, false)
+            )
+            VIEW_HOLDER_MULTI_IMAGE -> MultiImageItemViewHolder(
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_multi_image, parent, false)
             )
             else -> TODO("Throw an exception here")
         }
