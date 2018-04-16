@@ -5,8 +5,10 @@
     <string-array
         name="tabs_title_news">
         <item>Hello</item>
-        <item>Hello</item>
-        <item>Hello</item>
-        <item>Hello</item>
+        <item>I</item>
+        <item>am</item>
+        <item>BaoMoi</item>
+        <item>UI</item>
+        <item>Mockup</item>
     </string-array>
 </resources>

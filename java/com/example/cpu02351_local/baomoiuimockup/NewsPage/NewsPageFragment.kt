@@ -2,12 +2,18 @@ package com.example.cpu02351_local.baomoiuimockup.NewsPage
 
 import android.os.Bundle
 import android.support.design.widget.TabLayout
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.LinearLayout
 import com.example.cpu02351_local.baomoiuimockup.R
+import com.example.cpu02351_local.baomoiuimockup.Utils.CustomViewPager
 import com.example.cpu02351_local.baomoiuimockup.Utils.PageFragment
+import kotlinx.android.synthetic.main.fragment_news_page.*
 
 class NewsPageFragment : PageFragment(), TabLayout.OnTabSelectedListener {
     private var newsTabsTitle : Array<String>? = null
@@ -28,12 +34,32 @@ class NewsPageFragment : PageFragment(), TabLayout.OnTabSelectedListener {
         newsTabsTitle = savedInstanceState?.getStringArray("list_tabs")
                 ?: context!!.resources!!.getStringArray(R.array.tabs_title_news)
         adapterNews = NewsViewPagerAdapter(childFragmentManager, newsTabsTitle!!, NewsItemLoader())
+
+        // Create ViewPager
+        val context = this.context!!
+        viewPager = CustomViewPager(context)
+        viewPager!!.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        viewPager!!.id = View.generateViewId()
+
+        // Create TabLayout
+        tabLayout = TabLayout(context)
+        tabLayout!!.id = View.generateViewId()
+        tabLayout!!.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        tabLayout!!.tabMode = TabLayout.MODE_SCROLLABLE
+        tabLayout!!.overScrollMode = TabLayout.OVER_SCROLL_IF_CONTENT_SCROLLS
+        tabLayout!!.setBackgroundColor(ResourcesCompat.getColor(
+                context.resources, R.color.colorPrimary, null))
+
+
+        for (i in 0 until newsTabsTitle?.size!!) {
+            tabLayout!!.addTab(tabLayout!!.newTab().setText(newsTabsTitle!![i]))
+        }
         viewPager?.adapter = adapterNews
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
         outState.putStringArray("list_tabs", newsTabsTitle)
+        super.onSaveInstanceState(outState)
     }
 
     // Set adapterNews, bind listeners
@@ -41,26 +67,22 @@ class NewsPageFragment : PageFragment(), TabLayout.OnTabSelectedListener {
     // Inflate views
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_news_page, container, false)
-        tabLayout = rootView.findViewById(R.id.tabLayout)
-        viewPager = rootView.findViewById(R.id.viewPager)
-
-        // Can i save these tabs too?
-        for (i in 0 until newsTabsTitle?.size!!) {
-            tabLayout!!.addTab(tabLayout!!.newTab().setText("$newsTabsTitle[i]"))
-        }
-        tabLayout?.addOnTabSelectedListener(this)
-        viewPager?.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
-
+        // Use dynamically created objects instead
+        tabLayout!!.addOnTabSelectedListener(this)
+        viewPager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
+        val root = rootView.findViewById<LinearLayout>(R.id.rootView)
+        root.addView(tabLayout)
+        root.addView(viewPager)
         return rootView
     }
 
     // Remove adapterNews, but do not destroy the adapterNews
     // Remove View/ViewGroup references
     override fun onDestroyView() {
+        rootView.removeView(viewPager)
+        rootView.removeView(tabLayout)
         viewPager?.clearOnPageChangeListeners()
         tabLayout?.clearOnTabSelectedListeners()
-        tabLayout = null
-        viewPager = null
         super.onDestroyView()
     }
 
@@ -68,11 +90,13 @@ class NewsPageFragment : PageFragment(), TabLayout.OnTabSelectedListener {
     override fun onDestroy() {
         newsTabsTitle = null
         adapterNews = null
+        tabLayout = null
+        viewPager = null
         super.onDestroy()
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
-        viewPager?.currentItem = tab?.position!!
+        viewPager!!.currentItem = tab!!.position
     }
 
     override fun onTabReselected(tab: TabLayout.Tab?) {}
