@@ -34,14 +34,27 @@ class TabListDivider(context: Context) : RecyclerView.ItemDecoration() {
     )
 
     override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
-        super.getItemOffsets(outRect, view, parent, state)
+        // super.getItemOffsets(outRect, view, parent, state)
+        /*
         val index = parent?.getChildAdapterPosition(view)
-        if (index == 0 || index!! >= (parent.childCount - 1)) return
+        if (index!! >= (parent.childCount - 1)) return
         if (shouldDrawThickDivider(parent, index)) {
             outRect?.top = thickDivider?.intrinsicHeight
         } else if (shouldDrawThinDivider(parent, index)) {
             outRect?.top = thinDivider?.intrinsicHeight
         }
+        */
+
+        val params = view?.layoutParams as RecyclerView.LayoutParams
+        val position = params.viewAdapterPosition
+        if (position >= (state!!.itemCount - 1)) return
+
+        if (shouldDrawThickDivider(parent!!, position)) {
+            outRect?.set(0, 0, 0, thickDivider?.intrinsicHeight!!)
+        } else if (shouldDrawThinDivider(parent, position)) {
+            outRect?.set(0, 0, 0, thinDivider?.intrinsicHeight!!)
+        }
+
     }
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {

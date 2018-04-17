@@ -6,11 +6,38 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.cpu02351_local.baomoiuimockup.R
 import com.example.cpu02351_local.baomoiuimockup.Utils.ViewHolders.*
+import android.support.v7.widget.LinearLayoutManager
 
 
-class ItemAdapter(private var items: ArrayList<Item>, private var context: Context) : RecyclerView.Adapter<ItemViewHolder>() {
+
+
+class ItemAdapter(private var items: ArrayList<Item>, private var context: Context, private var recyclerView: RecyclerView) : RecyclerView.Adapter<ItemViewHolder>() {
+
+    private var listener : OnRecyclerViewBottomReachedListener? = null
+    private var isLoading = false
+
+    init {
+        val layoutManger = recyclerView.layoutManager as LinearLayoutManager
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (isLoading || listener == null) return
+
+                val visibleItemCount = layoutManger.childCount
+                val totalItemCount = layoutManger.itemCount
+                val pastVisibleItems = layoutManger.findFirstVisibleItemPosition()
+                if (pastVisibleItems + visibleItemCount >= totalItemCount) {
+                    //End of list
+                    isLoading = true
+                    listener!!.onBottomReached()
+                }
+            }
+        })
+    }
+
 
     companion object {
+        const val VIEW_HOLDER_LOADING = 0
         const val VIEW_HOLDER_HEADER = 1
         const val VIEW_HOLDER_SINGLE_IMAGE = 2
         const val VIEW_HOLDER_MULTI_IMAGE = 3
@@ -20,11 +47,13 @@ class ItemAdapter(private var items: ArrayList<Item>, private var context: Conte
         const val VIEW_HOLDER_VIDEO = 7
     }
 
-
     override fun getItemViewType(position: Int): Int = items[position].getViewHolderType()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return when(viewType) {
+            VIEW_HOLDER_LOADING -> LoadingItemViewHolder(
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_loading, parent, false)
+            )
             VIEW_HOLDER_HEADER -> HeaderItemViewHolder(
                     LayoutInflater.from(parent.context).inflate(R.layout.item_header, parent, false)
             )
@@ -57,5 +86,13 @@ class ItemAdapter(private var items: ArrayList<Item>, private var context: Conte
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.bindView(items[position])
+    }
+
+    fun setOnRecyclerViewBottomReached(listener: OnRecyclerViewBottomReachedListener) {
+        this.listener = listener
+    }
+
+    fun setLoaded() {
+        isLoading = false
     }
 }

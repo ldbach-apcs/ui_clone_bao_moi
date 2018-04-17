@@ -1,19 +1,37 @@
 package com.example.cpu02351_local.baomoiuimockup.NewsPage
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.cpu02351_local.baomoiuimockup.NewsPage.NewsItems.*
 import com.example.cpu02351_local.baomoiuimockup.R
-import com.example.cpu02351_local.baomoiuimockup.Utils.Item
-import com.example.cpu02351_local.baomoiuimockup.Utils.ItemAdapter
-import com.example.cpu02351_local.baomoiuimockup.Utils.ItemLoader
-import com.example.cpu02351_local.baomoiuimockup.Utils.ListTabFragment
+import com.example.cpu02351_local.baomoiuimockup.Utils.*
 
-class NewsListTabFragment : ListTabFragment(), SwipeRefreshLayout.OnRefreshListener {
+
+class NewsListTabFragment : ListTabFragment(), SwipeRefreshLayout.OnRefreshListener, OnRecyclerViewBottomReachedListener {
+    override fun onBottomReached() {
+        items.add(LoadingNewsItem())
+        adapter?.notifyItemInserted(items.size - 1)
+
+        Handler().postDelayed({
+            items.removeAt(items.size - 1)
+            adapter?.notifyItemRemoved(items.size)
+            //Generating more data
+            items.add(HeaderNewsItem("After reach bottom at ${items.size - 1}"))
+            items.add(MultiImageNewsItem())
+            items.add(SingleImageNewsItem())
+            items.add(AdNewsItem())
+            items.add(MultiImageNewsItem())
+            adapter?.notifyDataSetChanged()
+            adapter?.setLoaded()
+        }, 3000)
+    }
+
     override fun onRefresh() {
         swipeContainer.post {
             populateRecyclerView(null)
@@ -77,7 +95,8 @@ class NewsListTabFragment : ListTabFragment(), SwipeRefreshLayout.OnRefreshListe
         swipeContainer.isRefreshing = true
         loadData(savedInstanceState)
         swipeContainer.isRefreshing = false
-        adapter = ItemAdapter(items, context!!)
+        adapter = ItemAdapter(items, context!!, recyclerView)
+        adapter!!.setOnRecyclerViewBottomReached(this)
         recyclerView.adapter = null
         recyclerView.adapter = adapter
     }
