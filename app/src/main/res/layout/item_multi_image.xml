@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:paddingStart="8dp"
     android:paddingEnd="8dp"
-    android:background="@color/colorBackground">
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp">
 
     <TextView
         android:textSize="19sp"
@@ -72,13 +73,5 @@
         android:text="7"
         style="@style/comment_text" />
 
-    <View
-        android:layout_marginTop="8dp"
-        android:gravity="center_horizontal"
-        android:layout_below="@+id/item_comment_count"
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
 
 </RelativeLayout>

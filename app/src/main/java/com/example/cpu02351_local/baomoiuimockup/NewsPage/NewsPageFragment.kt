@@ -21,6 +21,8 @@ class NewsPageFragment : PageFragment(), TabLayout.OnTabSelectedListener {
     private var adapterNews : NewsViewPagerAdapter? = null
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager? = null
+    private var position = 0
+
     companion object {
         @JvmStatic
         fun instance() : NewsPageFragment {
@@ -81,6 +83,7 @@ class NewsPageFragment : PageFragment(), TabLayout.OnTabSelectedListener {
         val root = rootView.findViewById<LinearLayout>(R.id.rootView)
         root.addView(tabLayout)
         root.addView(viewPager)
+        viewPager?.currentItem = position
         return rootView
     }
 
@@ -105,6 +108,7 @@ class NewsPageFragment : PageFragment(), TabLayout.OnTabSelectedListener {
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
         viewPager!!.currentItem = tab!!.position
+        position = tab.position
     }
 
     override fun onTabReselected(tab: TabLayout.Tab?) {}

@@ -3,7 +3,6 @@ package com.example.cpu02351_local.baomoiuimockup.Utils.CustomViews
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.ImageView
-import android.content.res.TypedArray
 import com.example.cpu02351_local.baomoiuimockup.R
 
 

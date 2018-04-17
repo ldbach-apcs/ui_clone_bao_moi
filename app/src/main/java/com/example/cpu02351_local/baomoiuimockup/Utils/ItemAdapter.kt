@@ -1,5 +1,6 @@
 package com.example.cpu02351_local.baomoiuimockup.Utils
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +8,7 @@ import com.example.cpu02351_local.baomoiuimockup.R
 import com.example.cpu02351_local.baomoiuimockup.Utils.ViewHolders.*
 
 
-class ItemAdapter(private var items: ArrayList<Item>) : RecyclerView.Adapter<ItemViewHolder>() {
+class ItemAdapter(private var items: ArrayList<Item>, private var context: Context) : RecyclerView.Adapter<ItemViewHolder>() {
 
     companion object {
         const val VIEW_HOLDER_HEADER = 1
@@ -16,7 +17,7 @@ class ItemAdapter(private var items: ArrayList<Item>) : RecyclerView.Adapter<Ite
         const val VIEW_HOLDER_READ_MORE = 4
         const val VIEW_HOLDER_NOT_SATISFY = 5
         const val VIEW_HOLDER_AD_ITEM = 6
-        const val VIEW_HOLDER_RECT_VIDEO = 7
+        const val VIEW_HOLDER_VIDEO = 7
     }
 
 
@@ -28,7 +29,8 @@ class ItemAdapter(private var items: ArrayList<Item>) : RecyclerView.Adapter<Ite
                     LayoutInflater.from(parent.context).inflate(R.layout.item_header, parent, false)
             )
             VIEW_HOLDER_SINGLE_IMAGE -> SingleImageItemViewHolder(
-                    LayoutInflater.from(parent.context).inflate(R.layout.item_single_image, parent, false)
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_single_image, parent, false),
+                    context
             )
             VIEW_HOLDER_MULTI_IMAGE -> MultiImageItemViewHolder(
                     LayoutInflater.from(parent.context).inflate(R.layout.item_multi_image, parent, false)
@@ -40,9 +42,10 @@ class ItemAdapter(private var items: ArrayList<Item>) : RecyclerView.Adapter<Ite
                     LayoutInflater.from(parent.context).inflate(R.layout.item_not_satisfy, parent, false)
             )
             VIEW_HOLDER_AD_ITEM -> AdItemViewHolder(
-                    LayoutInflater.from(parent.context).inflate(R.layout.item_ad, parent, false)
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_ad, parent, false),
+                    context
             )
-            VIEW_HOLDER_RECT_VIDEO -> RectangleVideoItemViewHolder(
+            VIEW_HOLDER_VIDEO -> VideoItemViewHolder(
                     LayoutInflater.from(parent.context).inflate(R.layout.item_rect_video, parent, false)
             )
 

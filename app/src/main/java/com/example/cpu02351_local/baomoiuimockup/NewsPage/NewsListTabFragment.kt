@@ -1,6 +1,7 @@
 package com.example.cpu02351_local.baomoiuimockup.NewsPage
 
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -12,12 +13,18 @@ import com.example.cpu02351_local.baomoiuimockup.Utils.ItemAdapter
 import com.example.cpu02351_local.baomoiuimockup.Utils.ItemLoader
 import com.example.cpu02351_local.baomoiuimockup.Utils.ListTabFragment
 
-class NewsListTabFragment : ListTabFragment() {
+class NewsListTabFragment : ListTabFragment(), SwipeRefreshLayout.OnRefreshListener {
+    override fun onRefresh() {
+        swipeContainer.post {
+            populateRecyclerView(null)
+        }
+    }
 
     private lateinit var items : ArrayList<Item>
     private lateinit var loader: ItemLoader
     private lateinit var title: String
     private lateinit var recyclerView: RecyclerView
+    private lateinit var swipeContainer: SwipeRefreshLayout
     private var adapter : ItemAdapter? = null
 
     companion object {
@@ -42,16 +49,12 @@ class NewsListTabFragment : ListTabFragment() {
         return ArrayList()
     }
 
-    // Create array of HeaderNewsItem to hold data, recyclerView Adapter too
-    // Check if Data is cached, if not load them
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private fun loadData(savedInstanceState: Bundle?) {
         items = if (isDataCreated(savedInstanceState)) {
             loadSavedData()
         } else {
             loadServerData()
         }
-        adapter = ItemAdapter(items)
     }
 
     // Inflate layout, reference recyclerView, create adapter
@@ -60,7 +63,23 @@ class NewsListTabFragment : ListTabFragment() {
         recyclerView = rootView.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
+        swipeContainer = rootView.findViewById(R.id.swipe_container)
+
+        recyclerView.addItemDecoration(TabListDivider(context!!))
+        swipeContainer.setOnRefreshListener(this)
+        swipeContainer.post {
+            populateRecyclerView(savedInstanceState)
+        }
         return rootView
+    }
+
+    private fun populateRecyclerView(savedInstanceState: Bundle?) {
+        swipeContainer.isRefreshing = true
+        loadData(savedInstanceState)
+        swipeContainer.isRefreshing = false
+        adapter = ItemAdapter(items, context!!)
+        recyclerView.adapter = null
+        recyclerView.adapter = adapter
     }
 
     // de-reference all things
