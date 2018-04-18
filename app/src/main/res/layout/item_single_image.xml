@@ -27,10 +27,12 @@
         android:id="@+id/item_title"
         android:layout_alignTop="@+id/item_img"
         android:layout_toEndOf="@id/item_img"
-        android:text="This is a very long title. I hope it will drop into the new line :D"
+        android:text="This is a very long title."
         style="@style/item_title_text" />
 
     <TextView
+        android:layout_marginTop="2dp"
+        android:layout_alignWithParentIfMissing="true"
         android:layout_marginStart="4dp"
         android:textColor="@color/colorTextSpecial"
         android:id="@+id/item_source"
