@@ -14,6 +14,10 @@ import com.example.cpu02351_local.baomoiuimockup.Utils.*
 
 
 class NewsListTabFragment : ListTabFragment(), SwipeRefreshLayout.OnRefreshListener, OnRecyclerViewBottomReachedListener {
+    override fun scrollToTop() {
+        recyclerView.smoothScrollToPosition(0)
+    }
+
     override fun onBottomReached() {
         items.add(LoadingNewsItem())
         adapter?.notifyItemInserted(items.size - 1)
@@ -22,11 +26,8 @@ class NewsListTabFragment : ListTabFragment(), SwipeRefreshLayout.OnRefreshListe
             items.removeAt(items.size - 1)
             adapter?.notifyItemRemoved(items.size)
             //Generating more data
-            items.add(HeaderNewsItem("After reach bottom at ${items.size - 1}"))
-            items.add(MultiImageNewsItem())
-            items.add(SingleImageNewsItem())
-            items.add(AdNewsItem())
-            items.add(MultiImageNewsItem())
+            val tem = loader.loadMore(title)
+            items.addAll(tem)
             adapter?.notifyDataSetChanged()
             adapter?.setLoaded()
         }, 3000)

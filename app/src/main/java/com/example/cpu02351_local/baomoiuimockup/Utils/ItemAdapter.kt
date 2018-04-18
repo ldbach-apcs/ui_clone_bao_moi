@@ -21,14 +21,19 @@ class ItemAdapter(private var items: ArrayList<Item>, private var context: Conte
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (isLoading || listener == null) return
-
+                if (listener == null) return
                 val visibleItemCount = layoutManger.childCount
                 val totalItemCount = layoutManger.itemCount
                 val pastVisibleItems = layoutManger.findFirstVisibleItemPosition()
+
+                // End of list
                 if (pastVisibleItems + visibleItemCount >= totalItemCount) {
-                    //End of list
-                    isLoading = true
+                    // If it is loading already, don't need to waste resource in synchronizing this var
+                    if (isLoading) return
+                    synchronized(isLoading) {
+                        if (isLoading) return
+                        else isLoading = true
+                    }
                     listener!!.onBottomReached()
                 }
             }

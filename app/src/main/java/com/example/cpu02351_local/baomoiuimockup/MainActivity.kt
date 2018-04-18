@@ -9,6 +9,7 @@ import com.example.cpu02351_local.baomoiuimockup.Utils.PageFragment
 class MainActivity : AppCompatActivity() {
 
     private val navFragments = ArrayList<PageFragment>()
+    private var curFragment = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,10 +32,18 @@ class MainActivity : AppCompatActivity() {
         nav.setOnNavigationItemSelectedListener {
             it -> when (it.itemId) {
             R.id.navigation_news -> {
+                if (curFragment == 0) {
+                    navFragments[0].scrollToTop()
+                }
+                curFragment = 0
                 replaceFragment(navFragments[0], null)
                 true
             }
             R.id.navigation_video -> {
+                if (curFragment == 1) {
+                    navFragments[1].scrollToTop()
+                }
+                curFragment = 1
                 replaceFragment(navFragments[1], null)
                 true
             }

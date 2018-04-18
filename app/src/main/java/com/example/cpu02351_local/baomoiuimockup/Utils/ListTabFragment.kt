@@ -7,4 +7,5 @@ abstract class ListTabFragment : Fragment() {
     abstract fun loadServerData(): ArrayList<Item>
     abstract fun isDataCreated(savedInstanceState: Bundle?): Boolean
     abstract fun loadSavedData(): ArrayList<Item>
+    abstract fun scrollToTop()
 }

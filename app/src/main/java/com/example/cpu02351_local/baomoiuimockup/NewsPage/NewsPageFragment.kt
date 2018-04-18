@@ -13,10 +13,16 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import com.example.cpu02351_local.baomoiuimockup.R
 import com.example.cpu02351_local.baomoiuimockup.Utils.CustomViewPager
+import com.example.cpu02351_local.baomoiuimockup.Utils.ListTabFragment
 import com.example.cpu02351_local.baomoiuimockup.Utils.PageFragment
 import kotlinx.android.synthetic.main.fragment_news_page.*
 
 class NewsPageFragment : PageFragment(), TabLayout.OnTabSelectedListener {
+    override fun scrollToTop() {
+        val pos = viewPager?.currentItem
+        (adapterNews?.getItem(pos!!) as ListTabFragment).scrollToTop()
+    }
+
     private var newsTabsTitle : Array<String>? = null
     private var adapterNews : NewsViewPagerAdapter? = null
     private var tabLayout: TabLayout? = null

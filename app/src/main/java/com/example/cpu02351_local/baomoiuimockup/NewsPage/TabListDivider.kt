@@ -47,11 +47,11 @@ class TabListDivider(context: Context) : RecyclerView.ItemDecoration() {
 
         val params = view?.layoutParams as RecyclerView.LayoutParams
         val position = params.viewAdapterPosition
-        if (position >= (state!!.itemCount - 1)) return
+        if (position >= (state!!.itemCount - 2)) return
 
-        if (shouldDrawThickDivider(parent!!, position)) {
+        if (shouldDrawThickDivider(parent!!, view)) {
             outRect?.set(0, 0, 0, thickDivider?.intrinsicHeight!!)
-        } else if (shouldDrawThinDivider(parent, position)) {
+        } else if (shouldDrawThinDivider(parent, view)) {
             outRect?.set(0, 0, 0, thinDivider?.intrinsicHeight!!)
         }
 
@@ -61,9 +61,9 @@ class TabListDivider(context: Context) : RecyclerView.ItemDecoration() {
         val childCount = parent.childCount
         for (i in 0 until childCount - 1) {
             val child = parent.getChildAt(i)
-            if (shouldDrawThickDivider(parent, i)) {
+            if (shouldDrawThickDivider(parent, child)) {
                 drawDivider(c, parent, child, thickDivider!!)
-            } else if (shouldDrawThinDivider(parent, i)) {
+            } else if (shouldDrawThinDivider(parent, child)) {
                 drawDivider(c, parent, child, thinDivider!!)
             }
         }
@@ -79,17 +79,19 @@ class TabListDivider(context: Context) : RecyclerView.ItemDecoration() {
         divider.draw(c)
     }
 
-    private fun shouldDrawThinDivider(parent: RecyclerView, index: Int): Boolean {
+    private fun shouldDrawThinDivider(parent: RecyclerView, child: View): Boolean {
+        val pos = parent.getChildAdapterPosition(child)
         val adapter = parent.adapter
         // val viewTypeCur = adapter.getItemViewType(index)
-        val viewTypeNext = adapter.getItemViewType(index + 1)
+        val viewTypeNext = adapter.getItemViewType(pos + 1)
         return (viewTypeNext in drawThinIfBefore)
     }
 
-    private fun shouldDrawThickDivider(parent: RecyclerView, index: Int): Boolean {
+    private fun shouldDrawThickDivider(parent: RecyclerView, child: View): Boolean {
+        val pos = parent.getChildAdapterPosition(child)
         val adapter = parent.adapter
-        val viewTypeCur = adapter.getItemViewType(index)
-        val viewTypeNext = adapter.getItemViewType(index + 1)
+        val viewTypeCur = adapter.getItemViewType(pos)
+        val viewTypeNext = adapter.getItemViewType(pos + 1)
         return (viewTypeCur in drawThickIfIs ||
                 viewTypeNext in drawThickIfBefore)
     }
