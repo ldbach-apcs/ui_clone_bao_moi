@@ -10,7 +10,7 @@
 
 
     <com.example.cpu02351_local.baomoiuimockup.Utils.CustomViews.ScaledImage
-        android:id="@+id/item_img"
+        android:id="@+id/item_img_thumbnail"
         android:layout_width="128dp"
         android:layout_height="96dp"
         android:layout_alignParentStart="true"
@@ -24,8 +24,8 @@
     <TextView
         android:textSize="18sp"
         android:id="@+id/item_title"
-        android:layout_alignTop="@+id/item_img"
-        android:layout_toEndOf="@id/item_img"
+        android:layout_alignTop="@+id/item_img_thumbnail"
+        android:layout_toEndOf="@id/item_img_thumbnail"
         android:text="This is a very long title. I hope it will drop into the new line :D"
         style="@style/item_title_text" />
 
@@ -39,8 +39,8 @@
         android:id="@+id/item_source"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/item_img"
-        android:layout_alignBottom="@id/item_img"
+        android:layout_toEndOf="@id/item_img_thumbnail"
+        android:layout_alignBottom="@id/item_img_thumbnail"
         android:text="Tài trợ" />
 
 </RelativeLayout>

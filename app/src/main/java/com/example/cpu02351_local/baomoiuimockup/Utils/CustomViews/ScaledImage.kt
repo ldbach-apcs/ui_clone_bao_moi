@@ -10,13 +10,13 @@ class ScaledImage @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ImageView(context, attrs, defStyleAttr) {
 
-    private var scaledRatio: Float = 0.75f
+    var scaleRatio: Float = 0.75f
 
     init {
         if (attrs != null) {
             val ta = context.obtainStyledAttributes(attrs, R.styleable.ScaledImage, 0, 0)
             try {
-                scaledRatio = ta.getFloat(R.styleable.ScaledImage_scaledRatio, 0.75f)
+                scaleRatio = ta.getFloat(R.styleable.ScaledImage_scaledRatio, 0.75f)
             } finally {
                 ta.recycle()
             }
@@ -26,6 +26,7 @@ class ScaledImage @JvmOverloads constructor(
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val w = measuredWidth
-        setMeasuredDimension(w, (w * scaledRatio).toInt())
+        setMeasuredDimension(w, (w * scaleRatio).toInt())
     }
+
 }

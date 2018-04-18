@@ -21,7 +21,7 @@ class AdItemViewHolder(v: View, context: Context) : ItemViewHolder(v) {
         val size = Point()
         display.getSize(size)
         val paddingInPx = (PADDING * metrics.density + 0.5).toInt()
-        v.item_img.layoutParams.width = (size.x - 4 * paddingInPx) / 3
+        v.item_img_thumbnail.layoutParams.width = (size.x - 4 * paddingInPx) / 3
         v.requestLayout()
     }
 

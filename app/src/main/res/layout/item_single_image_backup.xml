@@ -2,9 +2,12 @@
 <com.example.cpu02351_local.baomoiuimockup.Utils.CustomViewGroups.SingleImageLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="8dp">
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp">
 
     <com.example.cpu02351_local.baomoiuimockup.Utils.CustomViews.ScaledImage
         android:id="@+id/item_img_thumbnail"
@@ -21,29 +24,47 @@
         />
 
     <TextView
-        android:layout_marginBottom="4dp"
-        android:ellipsize="end"
         android:textSize="18sp"
         android:id="@+id/item_title"
+        android:layout_alignTop="@+id/item_img_thumbnail"
+        android:layout_toEndOf="@id/item_img_thumbnail"
         android:text="This is a very long title."
         style="@style/item_title_text" />
 
     <TextView
-        android:paddingTop="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_marginStart="4dp"
         android:textColor="@color/colorTextSpecial"
         android:id="@+id/item_source"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/item_img_thumbnail"
+        android:layout_alignBottom="@id/item_img_thumbnail"
         android:text="Thanh niên" />
 
-    <TextView
 
-        android:paddingTop="8dp"
+    <TextView
         android:layout_marginStart="4dp"
         android:id="@+id/item_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/item_source"
+        android:layout_alignBottom="@id/item_source"
         android:text="10 phút trước" />
 
+    <ImageView
+        android:id="@+id/ic_comment"
+        android:src="@drawable/ic_comment"
+        android:layout_alignBottom="@id/item_img_thumbnail"
+        android:layout_alignEnd="@id/item_title"
+        style="@style/comment_icon" />
+
+    <TextView
+        android:id="@+id/item_comment_count"
+        android:layout_alignBottom="@id/item_img_thumbnail"
+        android:layout_toStartOf="@id/ic_comment"
+        android:text="7"
+        style="@style/comment_text" />
 
 </com.example.cpu02351_local.baomoiuimockup.Utils.CustomViewGroups.SingleImageLayout>

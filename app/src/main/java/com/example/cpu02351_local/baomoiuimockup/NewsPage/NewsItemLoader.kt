@@ -19,6 +19,8 @@ class NewsItemLoader : ItemLoader() {
         val random = Random(System.currentTimeMillis())
 
         for (i in 0 until size) {
+            res.add(SingleImageNewsItem())
+            /*
             when (rand(1, 7, random)) {
                 1 -> res.add(HeaderNewsItem("Header at position $i"))
                 2 -> res.add(SingleImageNewsItem())
@@ -29,6 +31,7 @@ class NewsItemLoader : ItemLoader() {
                 7 -> res.add(VideoNewsItem())
                 else -> throw IllegalStateException("Random generator in NewsItemLoader returns invalid type")
             }
+            */
         }
 
         return res
