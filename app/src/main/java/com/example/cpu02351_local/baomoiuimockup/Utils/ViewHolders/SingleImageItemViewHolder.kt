@@ -5,24 +5,21 @@ import android.content.res.Resources
 import android.graphics.Point
 import android.view.View
 import android.view.WindowManager
+import com.example.cpu02351_local.baomoiuimockup.R
 import com.example.cpu02351_local.baomoiuimockup.Utils.Item
 import kotlinx.android.synthetic.main.item_single_image.view.*
-import java.util.*
 
 
-class SingleImageItemViewHolder(var v: View, context: Context) : ItemViewHolder(v) {
+class SingleImageItemViewHolder(v: View, context: Context) : ItemViewHolder(v) {
 
-    companion object {
-        const val PADDING = 8
-    }
+    private val paddingInPx: Int = context.resources.getDimension(R.dimen.padding).toInt()
+
 
     init {
-        val metrics = Resources.getSystem().displayMetrics
         val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val display = wm.defaultDisplay
         val size = Point()
         display.getSize(size)
-        val paddingInPx = (PADDING * metrics.density + 0.5).toInt()
         v.item_img_thumbnail.layoutParams.width = (size.x - 4 * paddingInPx) / 3
         v.requestLayout()
     }
@@ -30,17 +27,6 @@ class SingleImageItemViewHolder(var v: View, context: Context) : ItemViewHolder(
     // Title, image, source, timeElapse, Comments, comment icon
     override fun bindView(item: Item) {
         // Do nothing for now
-        val random = Random()
-        val randNum = rand(0, 3, random)
-        when (randNum){
-            0 -> v.item_title.text = "Long text. Long text. Long text. Long text. Long text. Long text. Long text. " +
-                    "Long text. Long text. Long text."
-            1 -> v.item_title.text = "Long text. Long text. Long text. Long text. Long text. Long text. Long text. "
-            else -> v.item_title.text = "Short text"
-        }
-    }
 
-    private fun rand(from: Int, to: Int, random: Random) : Int {
-        return random.nextInt(to - from) + from
     }
 }

@@ -80,7 +80,7 @@ class ItemAdapter(private var items: ArrayList<Item>, private var context: Conte
                     context
             )
             VIEW_HOLDER_VIDEO -> VideoItemViewHolder(
-                    LayoutInflater.from(parent.context).inflate(R.layout.item_rect_video, parent, false)
+                    LayoutInflater.from(parent.context).inflate(R.layout.item_video, parent, false)
             )
 
             else -> throw IllegalStateException("Invalid ViewType in ItemAdapter")
