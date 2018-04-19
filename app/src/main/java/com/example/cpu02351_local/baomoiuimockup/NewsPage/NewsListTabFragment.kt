@@ -35,7 +35,7 @@ class NewsListTabFragment : ListTabFragment(), SwipeRefreshLayout.OnRefreshListe
 
     override fun onRefresh() {
         swipeContainer.post {
-            populateRecyclerView(null)
+            refreshRecyclerView()
         }
     }
 
@@ -100,6 +100,13 @@ class NewsListTabFragment : ListTabFragment(), SwipeRefreshLayout.OnRefreshListe
         adapter!!.setOnRecyclerViewBottomReached(this)
         recyclerView.adapter = null
         recyclerView.adapter = adapter
+    }
+
+    private fun refreshRecyclerView() {
+        swipeContainer.isRefreshing = true
+        val newItems = loader.load(title)
+        swipeContainer.isRefreshing = false
+        adapter?.updateItems(newItems)
     }
 
     // de-reference all things

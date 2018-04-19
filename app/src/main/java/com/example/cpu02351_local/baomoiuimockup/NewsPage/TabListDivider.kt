@@ -81,6 +81,7 @@ class TabListDivider(context: Context) : RecyclerView.ItemDecoration() {
 
     private fun shouldDrawThinDivider(parent: RecyclerView, child: View): Boolean {
         val pos = parent.getChildAdapterPosition(child)
+        if (pos == -1 || pos >= parent.childCount) return false
         val adapter = parent.adapter
         // val viewTypeCur = adapter.getItemViewType(index)
         val viewTypeNext = adapter.getItemViewType(pos + 1)
@@ -90,6 +91,7 @@ class TabListDivider(context: Context) : RecyclerView.ItemDecoration() {
     private fun shouldDrawThickDivider(parent: RecyclerView, child: View): Boolean {
         val pos = parent.getChildAdapterPosition(child)
         val adapter = parent.adapter
+        if (pos == -1 || pos >= parent.childCount) return false
         val viewTypeCur = adapter.getItemViewType(pos)
         val viewTypeNext = adapter.getItemViewType(pos + 1)
         return (viewTypeCur in drawThickIfIs ||

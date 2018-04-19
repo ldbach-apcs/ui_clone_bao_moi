@@ -1,14 +1,14 @@
 package com.example.cpu02351_local.baomoiuimockup.Utils
 
 import android.content.Context
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.cpu02351_local.baomoiuimockup.R
 import com.example.cpu02351_local.baomoiuimockup.Utils.ViewHolders.*
 import android.support.v7.widget.LinearLayoutManager
-
-
+import com.example.cpu02351_local.baomoiuimockup.NewsPage.NewsItemDiffUtilCallback
 
 
 class ItemAdapter(private var items: ArrayList<Item>, private var context: Context, private var recyclerView: RecyclerView) : RecyclerView.Adapter<ItemViewHolder>() {
@@ -17,6 +17,7 @@ class ItemAdapter(private var items: ArrayList<Item>, private var context: Conte
     private var isLoading = false
 
     init {
+        // notifyDataSetChanged()
         val layoutManger = recyclerView.layoutManager as LinearLayoutManager
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -99,5 +100,14 @@ class ItemAdapter(private var items: ArrayList<Item>, private var context: Conte
 
     fun setLoaded() {
         isLoading = false
+    }
+
+    fun updateItems(newItems : List<Item>) {
+        val diffCallback = NewsItemDiffUtilCallback(items, newItems)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        items.clear()
+        items.addAll(newItems)
+        diffResult.dispatchUpdatesTo(this)
+        recyclerView.scrollToPosition(0)
     }
 }
