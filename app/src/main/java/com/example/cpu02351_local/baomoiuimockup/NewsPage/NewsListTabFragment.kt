@@ -21,7 +21,6 @@ class NewsListTabFragment : ListTabFragment(), SwipeRefreshLayout.OnRefreshListe
     override fun onBottomReached() {
         items.add(LoadingNewsItem())
         adapter?.notifyItemInserted(items.size - 1)
-
         Handler().postDelayed({
             items.removeAt(items.size - 1)
             adapter?.notifyItemRemoved(items.size)
@@ -30,7 +29,7 @@ class NewsListTabFragment : ListTabFragment(), SwipeRefreshLayout.OnRefreshListe
             items.addAll(tem)
             adapter?.notifyDataSetChanged()
             adapter?.setLoaded()
-        }, 3000)
+        }, 1500)
     }
 
     override fun onRefresh() {
@@ -105,8 +104,12 @@ class NewsListTabFragment : ListTabFragment(), SwipeRefreshLayout.OnRefreshListe
     private fun refreshRecyclerView() {
         swipeContainer.isRefreshing = true
         val newItems = loader.load(title)
+        // adapter?.updateItems(newItems)
+        adapter?.updateItemsAsync(newItems, this)
+    }
+
+    fun doneLoading() {
         swipeContainer.isRefreshing = false
-        adapter?.updateItems(newItems)
     }
 
     // de-reference all things

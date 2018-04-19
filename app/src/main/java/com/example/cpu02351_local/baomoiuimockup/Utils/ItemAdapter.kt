@@ -1,6 +1,9 @@
 package com.example.cpu02351_local.baomoiuimockup.Utils
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
+import android.support.annotation.MainThread
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -9,6 +12,8 @@ import com.example.cpu02351_local.baomoiuimockup.R
 import com.example.cpu02351_local.baomoiuimockup.Utils.ViewHolders.*
 import android.support.v7.widget.LinearLayoutManager
 import com.example.cpu02351_local.baomoiuimockup.NewsPage.NewsItemDiffUtilCallback
+import com.example.cpu02351_local.baomoiuimockup.NewsPage.NewsListTabFragment
+import java.util.*
 
 
 class ItemAdapter(private var items: ArrayList<Item>, private var context: Context, private var recyclerView: RecyclerView) : RecyclerView.Adapter<ItemViewHolder>() {
@@ -102,12 +107,62 @@ class ItemAdapter(private var items: ArrayList<Item>, private var context: Conte
         isLoading = false
     }
 
+    private val mPendingUpdates = ArrayDeque<List<Item>>()
+    private val mHandler = Handler(Looper.getMainLooper())
+
+    @MainThread
+    private fun hasPendingUpdates() : Boolean {
+        return !mPendingUpdates.isEmpty()
+    }
+    @MainThread
+    private fun peekLast(): List<Item> {
+        return if (mPendingUpdates.isEmpty())
+            items
+        else
+            mPendingUpdates.peekLast()
+    }
+    @MainThread
+    fun updateItemsAsync(items: List<Item>, newsListTabFragment: NewsListTabFragment) {
+        mPendingUpdates.add(items)
+        if (hasPendingUpdates())
+            internalUpdate(items, newsListTabFragment)
+    }
+
+    private fun internalUpdate(newList: List<Item>, newsListTabFragment: NewsListTabFragment) {
+        Thread(Runnable {
+            val result = DiffUtil.calculateDiff(NewsItemDiffUtilCallback(items, newList), true)
+            mHandler.postDelayed({
+                items = newList as ArrayList<Item>
+                result.dispatchUpdatesTo(this@ItemAdapter)
+                processQueue(newsListTabFragment)
+
+            }, 2000)
+        }).start()
+    }
+
+    @MainThread
+    private fun processQueue(newsListTabFragment: NewsListTabFragment) {
+        mPendingUpdates.remove()
+        if (hasPendingUpdates()) {
+            if (mPendingUpdates.size > 1) {
+                val lastList = peekLast()
+                mPendingUpdates.clear()
+                mPendingUpdates.add(lastList)
+            }
+            internalUpdate(mPendingUpdates.peek(), newsListTabFragment)
+        }
+        recyclerView.stopScroll()
+        recyclerView.scrollToPosition(0)
+        newsListTabFragment.doneLoading()
+    }
+
     fun updateItems(newItems : List<Item>) {
         val diffCallback = NewsItemDiffUtilCallback(items, newItems)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         items.clear()
         items.addAll(newItems)
         diffResult.dispatchUpdatesTo(this)
+        recyclerView.stopScroll()
         recyclerView.scrollToPosition(0)
     }
 }
